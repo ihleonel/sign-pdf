@@ -1,27 +1,34 @@
 # -*- coding:utf-8 -*-
-from decouple import config
-import requests
+from decouple import config as env
+from signnow_python_sdk import Config, OAuth2, Document
 
-BASE_URL = 'https://api.signnow.com'
-TOKEN_URL = f'{BASE_URL}/oauth2/token'
-TOKEN_BASIC = config('TOKEN_BASIC')
+Config(client_id=env('CLIENT_ID'), client_secret=env('CLIENT_SECRET'), environment='production')
 
-username = config('USER_SIGNNOW')
-password = config('PASS_SIGNNOW')
+auth = OAuth2.request_token(env('USER_SIGNNOW'), env('PASS_SIGNNOW'))
 
-headers = {
-    'Authorization': f'Basic {TOKEN_BASIC}',
-    'Content-Type': 'application/x-www-form-urlencoded'
+# Upload document with tag sign
+file_path = './documents/test-sign-document-2.pdf'
+document = Document.upload(auth.get('access_token'), file_path, True)
+
+# Send invite to sign document
+invite_payload = {
+    'from': 'leonel.ibarra@outsourcearg.com',
+    'to': [
+        {
+            'email': 'ibarra.h.leonel@gmail.com',
+            'role_id': '',
+            'role': 'worker',
+            'order': 1,
+        },
+        {
+            'email': 'leonel.ibarra@outsourcearg.com',
+            'role_id': '',
+            'role': 'employer',
+            'order': 2,
+        }
+    ]
 }
 
-auth_data = {
-    'username': username,
-    'password': password,
-    'grant_type': 'password',
-    'scope': '*',
-}
+response = Document.invite(auth.get('access_token'), document.get('id'), invite_payload)
 
-response = requests.post(TOKEN_URL, data=auth_data, headers=headers)
-access_token = response.json()
-
-print(access_token)
+print(response)

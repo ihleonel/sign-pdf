@@ -3,4 +3,5 @@ charset-normalizer==3.3.2
 idna==3.7
 python-decouple==3.8
 requests==2.32.3
+signnow_python_sdk==2.0.1
 urllib3==2.2.2
