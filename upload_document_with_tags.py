@@ -11,7 +11,7 @@ Config(
 auth = OAuth2.request_token(env('USER_SIGNNOW'), env('PASS_SIGNNOW'))
 
 # Upload document with tag sign
-file_path = './documents/test-sign-document-2.pdf'
+file_path = './documents/test-sign-document-3.pdf'
 document = Document.upload(auth.get('access_token'), file_path, True)
 
 download = Document.download(
