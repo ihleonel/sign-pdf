@@ -14,9 +14,9 @@ auth = OAuth2.request_token(env('USER_SIGNNOW'), env('PASS_SIGNNOW'))
 file_path = './documents/test-sign-document-3.pdf'
 document = Document.upload(auth.get('access_token'), file_path, True)
 
-download = Document.download(
-    auth.get('access_token'),
-    document.get('id'),
-    "name_of_documento_downloaded",
-    "/home/leonel/github/sign-pdf/"
-)
+# download = Document.download(
+#     auth.get('access_token'),
+#     document.get('id'),
+#     "name_of_documento_downloaded",
+#     "/home/leonel/github/sign-pdf/"
+# )

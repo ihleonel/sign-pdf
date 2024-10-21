@@ -1,0 +1,14 @@
+services:
+  app:
+    image: dockersamples/static-site
+    ports:
+      - "80:80"
+  ngrok:
+    image: ngrok/ngrok
+    command:
+      - "http"
+      - "http://host.docker.internal:80"
+    environment:
+      - NGROK_AUTHTOKEN=2nchmdweZt938mWvZJ7Be6zMb2S_6VtJhmBko1FXpfJ2oMHZa
+    ports:
+      - 4040:4040
